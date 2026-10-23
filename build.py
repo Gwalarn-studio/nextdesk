@@ -8,7 +8,7 @@ import json, pathlib, re, html
 
 ROOT = pathlib.Path(__file__).parent
 BASE_URL = "https://jordanstephan.github.io/nextdesk/"
-SERVICES = "https://jordanstephan.github.io/plume-and-go/"
+SERVICES = "https://jordanstephan.github.io/Plume-and-go/"
 
 T = {
  "en": {"home": "Home", "tools": "Free tools", "services": "Get your CV done", "other": "FR", "other_lang": "fr",
