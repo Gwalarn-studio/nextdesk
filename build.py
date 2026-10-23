@@ -26,8 +26,8 @@ T = {
         "disc": "Certains liens de ce site sont affiliés : si vous achetez par leur biais, nous pouvons toucher une commission, sans surcoût pour vous. Nous ne recommandons que des outils que nous utiliserions.",
         "rubrics": {"cv": "CV et candidature", "remote": "Travail à distance", "ai": "IA au travail", "tools": "Outils gratuits"}},
 }
-LEGAL = {"en": ("legal-notice.html", "privacy.html", "terms.html"),
-         "fr": ("legal-notice.html?lang=fr", "privacy.html?lang=fr", "terms.html?lang=fr")}
+LEGAL = {"en": ("en/legal-notice.html", "en/privacy.html", "en/terms.html"),
+         "fr": ("fr/mentions-legales.html", "fr/confidentialite.html", "fr/cgv.html")}
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
          '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800'
