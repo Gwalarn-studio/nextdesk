@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://jordanstephan.github.io/nextdesk/sitemap.xml
