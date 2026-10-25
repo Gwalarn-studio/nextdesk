@@ -14,14 +14,14 @@ T = {
  "en": {"home": "Home", "tools": "Free tools", "services": "Get your CV done", "other": "FR", "other_lang": "fr",
         "tag": "Careers, remote work and AI, explained simply.",
         "legal": "Legal notice", "privacy": "Privacy", "terms": "Terms",
-        "promo_h": "Short on time?", "promo_p": "A human writer rewrites your CV or LinkedIn profile in English or French. Delivered within 24 hours.",
+        "promo_h": "Short on time?", "promo_p": "Plume & Go rewrites your CV or cover letter in English or French. Written by AI, ready in 1 minute, adjustments included.",
         "promo_b": "See the services", "read": "Read", "updated": "Updated",
         "disc": "Some links on this site are affiliate links: if you buy through them we may earn a commission, at no extra cost to you. We only recommend tools we would use.",
         "rubrics": {"cv": "CV & applications", "remote": "Remote work", "ai": "AI at work", "tools": "Free tools"}},
  "fr": {"home": "Accueil", "tools": "Outils gratuits", "services": "Faire refaire mon CV", "other": "EN", "other_lang": "en",
         "tag": "Carrière, télétravail et IA, expliqués simplement.",
         "legal": "Mentions légales", "privacy": "Confidentialité", "terms": "CGV",
-        "promo_h": "Pas le temps ?", "promo_p": "Un rédacteur réécrit votre CV ou votre profil LinkedIn en français ou en anglais. Livré sous 24 heures.",
+        "promo_h": "Pas le temps ?", "promo_p": "Plume & Go réécrit votre CV ou votre lettre en français ou en anglais. Rédigé par IA, prêt en 1 minute, ajustements inclus.",
         "promo_b": "Voir les services", "read": "Lire", "updated": "Mis à jour le",
         "disc": "Certains liens de ce site sont affiliés : si vous achetez par leur biais, nous pouvons toucher une commission, sans surcoût pour vous. Nous ne recommandons que des outils que nous utiliserions.",
         "rubrics": {"cv": "CV et candidature", "remote": "Travail à distance", "ai": "IA au travail", "tools": "Outils gratuits"}},
@@ -167,7 +167,7 @@ def build_home(lang, items):
         latest, rub_h = "Latest guides", "What you will find here"
         rub_d = {"cv": "CV examples, cover letters, LinkedIn and interviews.", "remote": "Companies hiring, job boards and how to avoid fake offers.",
                  "ai": "Prompts and tools that save you hours.", "tools": "A career quiz and interactive checklists."}
-        strip = ("Want a CV that gets interviews?", "Plume & Go rewrites your CV, cover letter or LinkedIn profile. Human-reviewed, delivered within 24 hours.", "See prices")
+        strip = ("Want a CV that gets interviews?", "Plume & Go rewrites your CV and cover letter, proofreads and translates between English and French. Written by AI, ready in 1 minute, adjustments included.", "See prices")
     else:
         title = "NextDesk : trouver un emploi en télétravail, un CV qui accroche, l'IA au travail"
         desc = "Guides gratuits, exemples de CV et outils pour chercher un emploi et travailler à distance, en français et en anglais."
@@ -176,7 +176,7 @@ def build_home(lang, items):
         latest, rub_h = "Derniers guides", "Ce que vous trouverez ici"
         rub_d = {"cv": "Exemples de CV, lettres, LinkedIn et entretiens.", "remote": "Entreprises qui recrutent, sites d'emploi et pièges à éviter.",
                  "ai": "Prompts et outils qui font gagner des heures.", "tools": "Un quiz métier et des checklists interactives."}
-        strip = ("Un CV qui décroche des entretiens ?", "Plume & Go réécrit votre CV, votre lettre ou votre profil LinkedIn. Relu par un humain, livré en 24 heures.", "Voir les tarifs")
+        strip = ("Un CV qui décroche des entretiens ?", "Plume & Go réécrit votre CV et votre lettre, relit et traduit entre le français et l'anglais. Rédigé par IA, prêt en 1 minute, ajustements inclus.", "Voir les tarifs")
     page = head(lang, title, desc, path, alt) + nav(lang, path, alt)
     page += f"""<div class="wrap hero"><span class="eyebrow">{t['tag']}</span><h1>{h1}</h1><p>{lead}</p></div></header><main>"""
     cards = ""
