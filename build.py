@@ -14,14 +14,14 @@ T = {
  "en": {"home": "Home", "tools": "Free tools", "services": "Get your CV done", "other": "FR", "other_lang": "fr",
         "tag": "Careers, remote work and AI, explained simply.",
         "legal": "Legal notice", "privacy": "Privacy", "terms": "Terms",
-        "promo_h": "Short on time?", "promo_p": "A human writer rewrites your CV or LinkedIn profile in English or French. Delivered within 24 hours.",
+        "promo_h": "Short on time?", "promo_p": "Plume & Go rewrites your CV or cover letter in English or French. Written by AI, ready in 1 minute, adjustments included.",
         "promo_b": "See the services", "read": "Read", "updated": "Updated",
         "disc": "Some links on this site are affiliate links: if you buy through them we may earn a commission, at no extra cost to you. We only recommend tools we would use.",
         "rubrics": {"cv": "CV & applications", "remote": "Remote work", "ai": "AI at work", "tools": "Free tools"}},
  "fr": {"home": "Accueil", "tools": "Outils gratuits", "services": "Faire refaire mon CV", "other": "EN", "other_lang": "en",
         "tag": "Carrière, télétravail et IA, expliqués simplement.",
         "legal": "Mentions légales", "privacy": "Confidentialité", "terms": "CGV",
-        "promo_h": "Pas le temps ?", "promo_p": "Un rédacteur réécrit votre CV ou votre profil LinkedIn en français ou en anglais. Livré en 24 heures.",
+        "promo_h": "Pas le temps ?", "promo_p": "Plume & Go réécrit votre CV ou votre lettre en français ou en anglais. Rédigé par IA, prêt en 1 minute, ajustements inclus.",
         "promo_b": "Voir les services", "read": "Lire", "updated": "Mis à jour le",
         "disc": "Certains liens de ce site sont affiliés : si vous achetez par leur biais, nous pouvons toucher une commission, sans surcoût pour vous. Nous ne recommandons que des outils que nous utiliserions.",
         "rubrics": {"cv": "CV et candidature", "remote": "Travail à distance", "ai": "IA au travail", "tools": "Outils gratuits"}},
@@ -96,6 +96,37 @@ def load(lang):
         out.append(meta)
     return out
 
+NBSP = "\u00a0"
+def fr_typo(page):
+    """French typography: keep : ; ? ! » « with their word, and 2 000 / 96 % / 9 h on one line."""
+    def fix(m):
+        t = m.group(0)
+        t = re.sub(r" (?=[:;?!»])", NBSP, t)
+        t = t.replace("« ", "«" + NBSP)
+        t = re.sub(r"(?<=\d) (?=\d{3}\b)", NBSP, t)
+        t = re.sub(r"(?<=\d) (?=(?:%|h\b|€|\$))", NBSP, t)
+        return t
+    return re.sub(r">[^<]+<", fix, page)
+
+def stack_tables(body):
+    """Give each <td> a data-label (its column header) so wide tables can stack as cards on phones."""
+    def one(m):
+        t = m.group(0)
+        heads = [re.sub(r"<[^>]+>", "", h).strip() for h in re.findall(r"<th[^>]*>(.*?)</th>", t, re.S)]
+        if len(heads) < 3:
+            return t
+        def row(r):
+            i = [0]
+            def cell(c):
+                lab = heads[i[0]] if i[0] < len(heads) else ""
+                i[0] += 1
+                return f'<td data-label="{html.escape(lab, quote=True)}"'
+            return re.sub(r"<td(?=[\s>])", cell, r.group(0))
+        t = re.sub(r"<tr>.*?</tr>", row, t, flags=re.S)
+        cls = "stack num" if heads[0] in ("#", "N°") else "stack"
+        return t.replace("<table>", f'<table class="{cls}">', 1)
+    return re.sub(r"<table>.*?</table>", one, body, flags=re.S)
+
 def build_article(lang, a, related):
     t = T[lang]
     path = f"{lang}/{a['slug']}.html"
@@ -114,11 +145,13 @@ def build_article(lang, a, related):
 <h1>{a['h1'] if a.get('h1') else html.escape(a['title'])}</h1>
 <p class="dek">{a['dek']}</p>
 <div class="byline">{t['updated']} {fmt_date(a['date'], lang)}</div></div></header>
-<main class="wrap layout"><article class="prose">{a['body']}
+<main class="wrap layout"><article class="prose">{stack_tables(a['body'])}
 <p class="disclosure">{t['disc']}</p></article>
 <aside class="side">{promo(lang)}<div class="box"><h3>{'Read next' if lang=='en' else 'À lire aussi'}</h3><ul>{rel_list}</ul></div></aside></main>"""
     page += footer(lang, path)
     (ROOT / "docs" / path).parent.mkdir(parents=True, exist_ok=True)
+    if lang == "fr":
+        page = fr_typo(page)
     (ROOT / "docs" / path).write_text(page, encoding="utf-8")
     return path
 
@@ -132,18 +165,18 @@ def build_home(lang, items):
         h1 = "Your next job, <em>from anywhere</em>."
         lead = "Practical guides, CV examples you can copy and free tools to land a remote job and work smarter with AI."
         latest, rub_h = "Latest guides", "What you will find here"
-        rub_d = {"cv": "CV examples, cover letters, LinkedIn and interviews.", "remote": "Companies hiring, job boards, salaries, visas.",
-                 "ai": "Prompts and tools that save you hours.", "tools": "Quizzes, generators and checklists."}
-        strip = ("Want a CV that gets interviews?", "Plume & Go rewrites your CV, cover letter or LinkedIn profile. Human-reviewed, delivered within 24 hours.", "See prices")
+        rub_d = {"cv": "CV examples, cover letters, LinkedIn and interviews.", "remote": "Companies hiring, job boards and how to avoid fake offers.",
+                 "ai": "Prompts and tools that save you hours.", "tools": "A career quiz and interactive checklists."}
+        strip = ("Want a CV that gets interviews?", "Plume & Go rewrites your CV and cover letter, proofreads and translates between English and French. Written by AI, ready in 1 minute, adjustments included.", "See prices")
     else:
         title = "NextDesk : trouver un emploi en télétravail, un CV qui accroche, l'IA au travail"
         desc = "Guides gratuits, exemples de CV et outils pour chercher un emploi et travailler à distance, en français et en anglais."
         h1 = "Votre prochain job, <em>de n'importe où</em>."
         lead = "Des guides concrets, des exemples de CV à copier et des outils gratuits pour décrocher un poste en télétravail et gagner du temps avec l'IA."
         latest, rub_h = "Derniers guides", "Ce que vous trouverez ici"
-        rub_d = {"cv": "Exemples de CV, lettres, LinkedIn et entretiens.", "remote": "Entreprises qui recrutent, sites d'emploi, salaires, visas.",
-                 "ai": "Prompts et outils qui font gagner des heures.", "tools": "Quiz, générateurs et checklists."}
-        strip = ("Un CV qui décroche des entretiens ?", "Plume & Go réécrit votre CV, votre lettre ou votre profil LinkedIn. Relu par un humain, livré en 24 heures.", "Voir les tarifs")
+        rub_d = {"cv": "Exemples de CV, lettres, LinkedIn et entretiens.", "remote": "Entreprises qui recrutent, sites d'emploi et pièges à éviter.",
+                 "ai": "Prompts et outils qui font gagner des heures.", "tools": "Un quiz métier et des checklists interactives."}
+        strip = ("Un CV qui décroche des entretiens ?", "Plume & Go réécrit votre CV et votre lettre, relit et traduit entre le français et l'anglais. Rédigé par IA, prêt en 1 minute, ajustements inclus.", "Voir les tarifs")
     page = head(lang, title, desc, path, alt) + nav(lang, path, alt)
     page += f"""<div class="wrap hero"><span class="eyebrow">{t['tag']}</span><h1>{h1}</h1><p>{lead}</p></div></header><main>"""
     cards = ""
@@ -160,6 +193,8 @@ def build_home(lang, items):
 {''.join(f'<div class="rubric"><b>{t["rubrics"][k]}</b><span>{v}</span></div>' for k, v in rub_d.items())}</div></section></main>"""
     page += footer(lang, path)
     (ROOT / "docs" / path).parent.mkdir(parents=True, exist_ok=True)
+    if lang == "fr":
+        page = fr_typo(page)
     (ROOT / "docs" / path).write_text(page, encoding="utf-8")
     return path
 

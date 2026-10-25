@@ -5,7 +5,12 @@ document.addEventListener("click", e => {
   const el = document.getElementById(b.dataset.copy);
   if (!el) return;
   const done = b.dataset.done || "Copied";
-  navigator.clipboard?.writeText(el.innerText.trim()).then(() => {
+  // Hide the copy button(s) inside the block while reading it, so "Copy" is not pasted into the CV.
+  const btns = [...el.querySelectorAll("[data-copy]")];
+  btns.forEach(x => x.style.display = "none");
+  const text = el.innerText.trim();
+  btns.forEach(x => x.style.display = "");
+  navigator.clipboard?.writeText(text).then(() => {
     const old = b.textContent; b.textContent = done; setTimeout(() => b.textContent = old, 1600);
   }).catch(() => {});
 });
