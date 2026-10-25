@@ -49,7 +49,7 @@ def head(lang, title, desc, path, alt_path, extra=""):
         other = T[lang]["other_lang"]
         links += (f'<link rel="alternate" hreflang="{lang}" href="{canon}">'
                   f'<link rel="alternate" hreflang="{other}" href="{alt}">')
-    return f"""<!doctype html><html lang="{lang}"><head><meta charset="utf-8">
+    return f"""<!doctype html><html lang="{lang}"><head><meta charset="utf-8"><meta name="google-site-verification" content="xr04cnwUJ9O7dfNQE8VGNQkIYiNTeebG1ID9B4vZDqc">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{html.escape(title)}</title>
 <meta name="description" content="{html.escape(desc)}">
