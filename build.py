@@ -56,7 +56,7 @@ def head(lang, title, desc, path, alt_path, extra=""):
 <meta property="og:title" content="{html.escape(title)}"><meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:type" content="website"><meta property="og:url" content="{canon}">
 {links}
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f4b45'/%3E%3Ctext x='16' y='22' font-size='17' font-family='sans-serif' font-weight='800' text-anchor='middle' fill='%23ffe45c'%3EN%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="{rel(path)}assets/gwalarn-icone.svg"><link rel="icon" type="image/png" href="{rel(path)}assets/gwalarn-icone.png"><link rel="apple-touch-icon" href="{rel(path)}assets/gwalarn-icone.png">
 {FONTS}
 <link rel="stylesheet" href="{rel(path)}assets/style.css">{extra}
 </head><body>"""
@@ -71,7 +71,7 @@ def nav(lang, path, alt_path):
     tools = f"{r}{lang}/" + ("remote-job-quiz.html" if lang == "en" else "quiz-metier-teletravail.html")
     other = f"{r}{alt_path}" if alt_path is not None else (f"{r}fr/index.html" if lang == "en" else f"{r}index.html")
     return f"""<header class="band"><div class="wrap nav">
-<a class="logo" href="{home}">Next<span>Desk</span></a>
+<a class="logo" href="{home}"><img class="gw-mark" src="{r}assets/gwalarn-icone.svg" alt="" width="28" height="28">Next<span>Desk</span></a>
 <nav class="menu" aria-label="Menu"><a class="hide-sm" href="{tools}">{t['tools']}</a>
 <a class="lang" href="{other}" hreflang="{t['other_lang']}" lang="{t['other_lang']}">{t['other']}</a>
 <a class="cta" href="{SERVICES}?lang={lang}">{t['services']}</a></nav></div>"""

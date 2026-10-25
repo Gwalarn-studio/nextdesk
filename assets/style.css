@@ -30,6 +30,7 @@ img{max-width:100%}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:16px;flex-wrap:wrap}
 .logo{font:800 1.35rem/1 var(--display);letter-spacing:-.01em;text-decoration:none}
 .logo span{color:var(--mark)}
+.logo{display:inline-flex;align-items:center} .gw-mark{display:block;border-radius:7px;flex:none;margin-right:8px}
 .menu{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;font-size:.95rem}
 .menu a{text-decoration:none;opacity:.9}
 .menu a:hover{opacity:1;text-decoration:underline}
