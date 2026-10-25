@@ -25,7 +25,7 @@
     root.innerHTML = `<div class="bar" aria-hidden="true"><i style="width:100%"></i></div>
       <span class="eyebrow">${L.result}</span>` + top.map(([id, s], i) => {
         const r = data.roles[id];
-        return `<div class="result"><span class="pct">${i === 0 ? L.best : L.also} · ${Math.round(s / max * 100)}% ${L.match}</span>
+        return `<div class="result"><span class="pct">${i === 0 ? L.best : L.also} · ${Math.round(s / max * 100)}${document.documentElement.lang === "fr" ? "\u00a0" : ""}% ${L.match}</span>
           <h3>${r.name}</h3><p>${r.why}</p><p><b>${L.start}</b> ${r.start}</p></div>`;
       }).join("") + `<p><a class="btn" href="${data.cta.href}">${data.cta.label}</a></p>
       <p><button type="button" class="copy" id="again" style="float:none">${L.again}</button></p>`;
