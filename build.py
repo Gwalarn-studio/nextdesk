@@ -14,18 +14,31 @@ T = {
  "en": {"home": "Home", "tools": "Free tools", "services": "Get your CV done", "other": "FR", "other_lang": "fr",
         "tag": "Careers, remote work and AI, explained simply.",
         "legal": "Legal notice", "privacy": "Privacy", "terms": "Terms",
-        "promo_h": "Short on time?", "promo_p": "Plume & Go rewrites your CV or cover letter in English or French. Written by AI, ready in 1 minute, adjustments included.",
+        "promo_h": "Short on time?", "promo_p": "Plume & Go tailors your CV and cover letter to the job ad, in English or French, for €15. Written by AI, ready in 1 minute, adjustments included.",
         "promo_b": "See the services", "read": "Read", "updated": "Updated",
         "disc": "Some links on this site are affiliate links: if you buy through them we may earn a commission, at no extra cost to you. We only recommend tools we would use.",
         "rubrics": {"cv": "CV & applications", "remote": "Remote work", "ai": "AI at work", "tools": "Free tools"}},
  "fr": {"home": "Accueil", "tools": "Outils gratuits", "services": "Faire refaire mon CV", "other": "EN", "other_lang": "en",
         "tag": "Carrière, télétravail et IA, expliqués simplement.",
         "legal": "Mentions légales", "privacy": "Confidentialité", "terms": "CGV",
-        "promo_h": "Pas le temps ?", "promo_p": "Plume & Go réécrit votre CV ou votre lettre en français ou en anglais. Rédigé par IA, prêt en 1 minute, ajustements inclus.",
+        "promo_h": "Pas le temps ?", "promo_p": "Plume & Go adapte votre CV et votre lettre de motivation à l'offre, en français ou en anglais, pour 15 €. Rédigé par IA, prêt en 1 minute, ajustements inclus.",
         "promo_b": "Voir les services", "read": "Lire", "updated": "Mis à jour le",
         "disc": "Certains liens de ce site sont affiliés : si vous achetez par leur biais, nous pouvons toucher une commission, sans surcoût pour vous. Nous ne recommandons que des outils que nous utiliserions.",
         "rubrics": {"cv": "CV et candidature", "remote": "Travail à distance", "ai": "IA au travail", "tools": "Outils gratuits"}},
 }
+# Sister sites of the Gwalarn family, linked in every footer: (name, short description per lang, url per lang).
+SISTERS = [("Plume & Go", {"fr": "CV et textes rédigés par IA", "en": "AI-written CVs and texts"},
+            {"fr": "https://gwalarn-studio.github.io/Plume-and-go/?lang=fr", "en": "https://gwalarn-studio.github.io/Plume-and-go/?lang=en"}),
+           ("NextDesk", {"fr": "carrière et télétravail", "en": "careers and remote work"},
+            {"fr": "https://gwalarn-studio.github.io/nextdesk/fr/", "en": "https://gwalarn-studio.github.io/nextdesk/"}),
+           ("AlgoClair", {"fr": "algorithmes des réseaux sociaux", "en": "social media algorithms"},
+            {"fr": "https://gwalarn-studio.github.io/algoclair/", "en": "https://gwalarn-studio.github.io/algoclair/en/"})]
+
+def sisters(lang, me):
+    label = "Les sites Gwalarn :" if lang == "fr" else "Gwalarn sites:"
+    links = "".join(f'<span>{html.escape(n)}</span>' if n == me else f'<a href="{u[lang]}">{html.escape(n)} · {d[lang]}</a>' for n, d, u in SISTERS)
+    return f'<div class="wrap sister"><span>{label}</span>{links}</div>'
+
 LEGAL = {"en": ("en/legal-notice.html", "en/privacy.html", "en/terms.html"),
          "fr": ("fr/mentions-legales.html", "fr/confidentialite.html", "fr/cgv.html")}
 
@@ -78,9 +91,9 @@ def nav(lang, path, alt_path):
 
 def footer(lang, path):
     t = T[lang]; l = LEGAL[lang]
-    return f"""<footer><div class="wrap row"><span>NextDesk · {t['tag']}</span>
+    return f"""<footer><div class="wrap row"><span>NextDesk · Gwalarn · {t['tag']}</span>
 <nav><a href="{SERVICES}{l[0]}">{t['legal']}</a><a href="{SERVICES}{l[1]}">{t['privacy']}</a><a href="{SERVICES}{l[2]}">{t['terms']}</a></nav>
-</div></footer><script src="{rel(path)}assets/site.js" defer></script></body></html>"""
+</div>{sisters(lang, "NextDesk")}</footer><script src="{rel(path)}assets/site.js" defer></script></body></html>"""
 
 def promo(lang):
     t = T[lang]
