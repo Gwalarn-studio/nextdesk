@@ -42,9 +42,6 @@ def sisters(lang, me):
 LEGAL = {"en": ("en/legal-notice.html", "en/privacy.html", "en/terms.html"),
          "fr": ("fr/mentions-legales.html", "fr/confidentialite.html", "fr/cgv.html")}
 
-FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-         '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800'
-         '&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">')
 
 def fmt_date(d, lang):
     y, m, dd = d.split("-")
@@ -70,7 +67,7 @@ def head(lang, title, desc, path, alt_path, extra=""):
 <meta property="og:type" content="website"><meta property="og:url" content="{canon}">
 {links}
 <link rel="icon" type="image/svg+xml" href="{rel(path)}assets/gwalarn-icone.svg"><link rel="icon" type="image/png" href="{rel(path)}assets/gwalarn-icone.png"><link rel="apple-touch-icon" href="{rel(path)}assets/gwalarn-icone.png">
-{FONTS}
+<link rel="stylesheet" href="{rel(path)}assets/fonts/fonts.css">
 <link rel="stylesheet" href="{rel(path)}assets/style.css">{extra}
 </head><body>"""
 
